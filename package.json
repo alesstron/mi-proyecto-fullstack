@@ -18,7 +18,8 @@
     "db:studio": "prisma studio",
     "icons": "python scripts/make-icons.py",
     "test": "node --test \"server/test/*.test.js\"",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:e2e": "playwright test"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",
@@ -35,5 +36,8 @@
     "prisma": "6.1.0",
     "stripe": "17.5.0",
     "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
   }
 }

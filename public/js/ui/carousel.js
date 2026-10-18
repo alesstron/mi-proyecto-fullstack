@@ -18,6 +18,11 @@ export function initCarousel() {
       </div>
     </button>`).join('');
 
+  const markLoaded = img => img.classList.add('is-loaded');
+  track.addEventListener('load', e => { if (e.target.tagName === 'IMG') markLoaded(e.target); }, true);
+  track.addEventListener('error', e => { if (e.target.tagName === 'IMG') markLoaded(e.target); }, true);
+  $$('img', track).forEach(img => { if (img.complete) markLoaded(img); });
+
   let x = 0, min = 0, snaps = [];
   let dragging = false, captured = false, startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0, moved = 0;
   let suppressClick = false;

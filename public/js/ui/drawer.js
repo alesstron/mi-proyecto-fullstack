@@ -42,6 +42,11 @@ export function openDrawer(pkg, trigger, ctx = {}) {
   art.innerHTML = pkg.cover
     ? `<img src="${esc(pkg.cover.src)}" srcset="${esc(pkg.cover.srcset)}" sizes="(max-width: 620px) 92vw, 520px" alt="" decoding="async">`
     : esc(pkg.emoji ?? pkg.destination.emoji ?? '');
+  const artImg = $('img', art);
+  if (artImg) {
+    const done = () => artImg.classList.add('is-loaded');
+    if (artImg.complete) done(); else { artImg.addEventListener('load', done, { once: true }); artImg.addEventListener('error', done, { once: true }); }
+  }
   $('#drawerTitle').textContent = pkg.title;
   $('#drawerRoute').textContent = `${pkg.route} · ${pkg.days} días`;
   $('#drawerDesc').textContent = dest?.description ?? '';
