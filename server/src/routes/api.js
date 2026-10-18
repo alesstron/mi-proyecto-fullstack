@@ -24,7 +24,7 @@ api.get('/health', async (_req, res) => {
   try { await prisma.$queryRaw`SELECT 1`; } catch { db = 'down'; }
   res.set('Cache-Control', 'no-store')
     .status(db === 'up' ? 200 : 503)
-    .json({ status: db === 'up' ? 'ok' : 'degraded', db, uptime: Math.round(process.uptime()) });
+    .json({ status: db === 'up' ? 'ok' : 'degraded', db, uptime: Math.round(process.uptime()), commit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null });
 });
 
 api.get('/config', (_req, res) => {
@@ -40,10 +40,10 @@ api.get('/seed', adminLimiter, async (req, res, next) => {
     if ((await prisma.destination.count()) > 0) {
       return requireAdmin(req, res, async err => {
         if (err) return next(err);
-        res.set('Cache-Control', 'no-store').json({ data: await seedCatalog(prisma), reseeded: true });
+        res.set('Cache-Control', 'no-store').json({ success: true, message: 'Base de datos poblada con éxito', reseeded: true, data: await seedCatalog(prisma) });
       });
     }
-    res.set('Cache-Control', 'no-store').json({ data: await seedCatalog(prisma), reseeded: false });
+    res.set('Cache-Control', 'no-store').json({ success: true, message: 'Base de datos poblada con éxito', reseeded: false, data: await seedCatalog(prisma) });
   } catch (e) { next(e); }
 });
 
