@@ -788,6 +788,12 @@ html.drawer-open .drawer { transform: translateY(0); }
 .news-form .btn:focus-visible { box-shadow: 0 0 0 3px #102030, 0 0 0 5px #FF5C8D; }
 .news-form.is-done .btn { --btn-bg: #5BD49A; }
 .news-form.shake { animation: shake 360ms var(--ease-out); }
+.offices { padding: 28px 0 8px; border-top: 1px solid rgb(255 255 255 / .12); margin-top: 28px; }
+.offices h3 { font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 600; color: #8193A5; margin-bottom: 14px; }
+.offices ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.offices li { display: grid; gap: 2px; font-size: var(--fs-sm); }
+.offices li span { color: #8193A5; }
+.offices a { text-decoration: underline; text-underline-offset: 3px; }
 .fcol h3 { font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 600; color: #8193A5; letter-spacing: 0; margin-bottom: 14px; }
 .fcol ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: var(--fs-sm); }
 .wordmark {
