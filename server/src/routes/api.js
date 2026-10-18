@@ -40,10 +40,10 @@ api.get('/seed', adminLimiter, async (req, res, next) => {
     if ((await prisma.destination.count()) > 0) {
       return requireAdmin(req, res, async err => {
         if (err) return next(err);
-        res.set('Cache-Control', 'no-store').json({ success: true, message: 'Base de datos poblada con éxito', reseeded: true, data: await seedCatalog(prisma) });
+        res.set('Cache-Control', 'no-store').json({ success: true, message: 'Datos cargados en Neon', reseeded: true, data: await seedCatalog(prisma) });
       });
     }
-    res.set('Cache-Control', 'no-store').json({ success: true, message: 'Base de datos poblada con éxito', reseeded: false, data: await seedCatalog(prisma) });
+    res.set('Cache-Control', 'no-store').json({ success: true, message: 'Datos cargados en Neon', reseeded: false, data: await seedCatalog(prisma) });
   } catch (e) { next(e); }
 });
 
