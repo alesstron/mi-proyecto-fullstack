@@ -42,7 +42,8 @@ function staticHeaders(res, filePath) {
 export function createApp() {
   const app = express();
 
-  app.set('trust proxy', env.TRUST_PROXY);
+  // Vercel siempre va detrás de su proxy: sin esto req.secure es falso y se redirige en bucle
+  app.set('trust proxy', process.env.VERCEL ? 1 : env.TRUST_PROXY);
   app.disable('x-powered-by');
 
   app.use(requestId);

@@ -50,7 +50,8 @@ export const apiCors = cors({
 
 /** Detrás de un proxy (Render, Railway…) redirige http → https. Requiere TRUST_PROXY. */
 export function enforceHttps(req, res, next) {
-  if (!env.isProd || req.secure || req.path === '/api/health') return next();
+  // Vercel ya fuerza HTTPS en su borde: redirigir aquí solo puede crear bucles
+  if (!env.isProd || process.env.VERCEL || req.secure || req.get('x-forwarded-proto') === 'https' || req.path === '/api/health') return next();
   res.redirect(308, `https://${req.get('host')}${req.originalUrl}`);
 }
 
