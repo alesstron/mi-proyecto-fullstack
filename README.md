@@ -136,6 +136,7 @@ Base: `/api`. Todas las respuestas son JSON. Los errores siempre tienen la misma
 | Método y ruta | Descripción | Límite |
 |---|---|---|
 | `GET /health` | Estado de la API y de la BD | – |
+| `GET /seed` | Carga destinos, paquetes y reseñas. Libre solo si la BD está vacía; con datos exige `Authorization: Bearer ADMIN_API_KEY` | 30 / 15 min |
 | `GET /config` | Pagos activos, moneda, seña e IVA | – |
 | `GET /destinations` | `?category=playa\|montana\|ciudad\|aventura&featured=true&search=&maxDays=&sort=featured\|price_asc\|price_desc\|rating&page=&limit=` | 300 / 15 min (global) |
 | `GET /destinations/:idOrSlug` | Detalle con paquetes, últimas reseñas y media | |

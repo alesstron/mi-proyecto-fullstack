@@ -25,7 +25,7 @@ function cardHtml(d) {
   <article class="dest-card" data-slug="${esc(d.slug)}" data-cats="${esc(d.categories.join(' '))}">
     <div class="dest-inner">
       <div class="dest-media" style="--fallback:${esc(d.gradient ?? 'var(--accent-soft)')}">
-        <span class="emoji" aria-hidden="true">${esc(d.emoji ?? '')}</span>
+        ${d.cover ? '' : `<span class="emoji" aria-hidden="true">${esc(d.emoji ?? '')}</span>`}
         ${img}
         <span class="dest-tag">${esc(tags)}</span>
         <span class="dest-shine" aria-hidden="true"></span>

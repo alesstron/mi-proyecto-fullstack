@@ -48,7 +48,7 @@ function travelAgency(image) {
     image,
     description: DEFAULT_DESC,
     email: 'hola@rumbonomada.com',
-    telephone: '+52 55 1234 5678',
+    telephone: '+58 424 553 5901',
     priceRange: '$$',
     address: { '@type': 'PostalAddress', addressLocality: 'Ciudad de México', addressCountry: 'MX' },
     areaServed: ['MX', 'ES', 'CO', 'AR', 'CL', 'PE'],

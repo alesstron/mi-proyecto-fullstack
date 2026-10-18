@@ -14,6 +14,7 @@ import * as community from '../controllers/community.controller.js';
 import { prisma } from '../lib/prisma.js';
 import { paymentsEnabled } from '../lib/payments.js';
 import { PRICING } from '../../../public/shared/pricing.js';
+import { seedCatalog } from '../services/seed.service.js';
 
 export const api = Router();
 
@@ -29,6 +30,21 @@ api.get('/health', async (_req, res) => {
 api.get('/config', (_req, res) => {
   res.set('Cache-Control', 'public, max-age=300');
   res.json({ data: { payments: paymentsEnabled(), currency: PRICING.currency, depositRate: PRICING.depositRate, taxRate: PRICING.taxRate } });
+});
+
+/* ---------- Carga inicial de datos ----------
+   Sin destinos en la BD cualquiera puede lanzarla (primer arranque en Vercel).
+   Con datos, exige Authorization: Bearer ADMIN_API_KEY para no reescribir el catálogo. */
+api.get('/seed', adminLimiter, async (req, res, next) => {
+  try {
+    if ((await prisma.destination.count()) > 0) {
+      return requireAdmin(req, res, async err => {
+        if (err) return next(err);
+        res.set('Cache-Control', 'no-store').json({ data: await seedCatalog(prisma), reseeded: true });
+      });
+    }
+    res.set('Cache-Control', 'no-store').json({ data: await seedCatalog(prisma), reseeded: false });
+  } catch (e) { next(e); }
 });
 
 /* ---------- Destinos y paquetes ---------- */
