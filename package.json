@@ -1,0 +1,39 @@
+{
+  "name": "rumbo-nomada",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma web de la agencia de viajes Rumbo Nómada: front-end animado, API REST, PostgreSQL y servicios externos.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "dev": "node --watch server/src/index.js",
+    "dev:static": "node scripts/serve.js",
+    "start": "node server/src/index.js",
+    "build": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:seed": "node prisma/seed.js",
+    "db:studio": "prisma studio",
+    "icons": "python scripts/make-icons.py",
+    "test": "node --test \"server/test/*.test.js\"",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "6.1.0",
+    "compression": "1.7.5",
+    "cors": "2.8.5",
+    "dotenv": "16.4.7",
+    "express": "5.1.0",
+    "express-rate-limit": "7.5.0",
+    "helmet": "8.0.0",
+    "prisma": "6.1.0",
+    "stripe": "17.5.0",
+    "zod": "3.24.1"
+  }
+}

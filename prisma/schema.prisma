@@ -1,0 +1,161 @@
+// =========================================================
+// Rumbo Nómada · esquema de datos (PostgreSQL + Prisma)
+// Modelos en camelCase, columnas y tablas en snake_case.
+// Las restricciones CHECK viven en la migración SQL.
+// =========================================================
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  playa
+  montana
+  ciudad
+  aventura
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  cancelled
+}
+
+enum PaymentStatus {
+  unpaid
+  deposit_paid
+  paid
+  refunded
+}
+
+enum SubscriberStatus {
+  active
+  unsubscribed
+}
+
+enum ReviewStatus {
+  pending
+  approved
+  rejected
+}
+
+model Destination {
+  id             String     @id @default(uuid()) @db.Uuid
+  slug           String     @unique
+  title          String
+  description    String
+  category       Category
+  tags           Category[] @default([])
+  pricePerNight  Decimal    @map("price_per_night") @db.Decimal(10, 2)
+  flightEstimate Decimal    @map("flight_estimate") @db.Decimal(10, 2)
+  location       String
+  country        String
+  rating         Decimal    @default(0) @db.Decimal(2, 1)
+  images         String[]   @default([])
+  emoji          String?
+  gradient       String?
+  featured       Boolean    @default(false)
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  packages Package[]
+  bookings Booking[]
+  reviews  Review[]
+
+  @@index([category])
+  @@index([featured])
+  @@map("destinations")
+}
+
+model Package {
+  id             String   @id @default(uuid()) @db.Uuid
+  slug           String   @unique
+  title          String
+  route          String
+  days           Int
+  pricePerPerson Decimal  @map("price_per_person") @db.Decimal(10, 2)
+  /// [{ title, description }] por día destacado
+  itinerary      Json
+  includes       String[] @default([])
+  maxGroupSize   Int      @default(12) @map("max_group_size")
+  emoji          String?
+  active         Boolean  @default(true)
+  destinationId  String   @map("destination_id") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  destination Destination @relation(fields: [destinationId], references: [id])
+  bookings    Booking[]
+
+  @@index([destinationId])
+  @@map("packages")
+}
+
+model Booking {
+  id              String        @id @default(uuid()) @db.Uuid
+  reference       String        @unique
+  userName        String        @map("user_name")
+  userEmail       String        @map("user_email")
+  userPhone       String?       @map("user_phone")
+  destinationId   String        @map("destination_id") @db.Uuid
+  packageId       String        @map("package_id") @db.Uuid
+  startDate       DateTime      @map("start_date") @db.Date
+  endDate         DateTime      @map("end_date") @db.Date
+  travelersCount  Int           @map("travelers_count")
+  unitPrice       Decimal       @map("unit_price") @db.Decimal(10, 2)
+  subtotal        Decimal       @db.Decimal(10, 2)
+  taxes           Decimal       @db.Decimal(10, 2)
+  totalPrice      Decimal       @map("total_price") @db.Decimal(10, 2)
+  depositAmount   Decimal       @map("deposit_amount") @db.Decimal(10, 2)
+  currency        String        @default("USD") @db.Char(3)
+  status          BookingStatus @default(pending)
+  paymentStatus   PaymentStatus @default(unpaid) @map("payment_status")
+  stripeSessionId String?       @unique @map("stripe_session_id")
+  notes           String?
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  destination Destination @relation(fields: [destinationId], references: [id])
+  package     Package     @relation(fields: [packageId], references: [id])
+
+  @@index([packageId, startDate])
+  @@index([userEmail])
+  @@index([status])
+  @@map("bookings")
+}
+
+model NewsletterSubscriber {
+  id               String           @id @default(uuid()) @db.Uuid
+  email            String           @unique
+  status           SubscriberStatus @default(active)
+  source           String?
+  unsubscribeToken String           @unique @default(uuid()) @map("unsubscribe_token")
+  subscribedAt     DateTime         @default(now()) @map("subscribed_at")
+  unsubscribedAt   DateTime?        @map("unsubscribed_at")
+
+  @@map("newsletter_subscribers")
+}
+
+model Review {
+  id             String       @id @default(uuid()) @db.Uuid
+  authorName     String       @map("author_name")
+  authorLocation String?      @map("author_location")
+  avatarUrl      String?      @map("avatar_url")
+  rating         Int
+  comment        String
+  status         ReviewStatus @default(pending)
+  destinationId  String?      @map("destination_id") @db.Uuid
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  destination Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([destinationId])
+  @@map("reviews")
+}

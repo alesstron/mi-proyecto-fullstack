@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .bg { fill: #FFF7F0; } .ink { stroke: #1B2A3A; } .dot { fill: #1B2A3A; } .needle { fill: #D81F5B; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #13202D; } .ink { stroke: #FBEFE4; } .dot { fill: #FBEFE4; } .needle { fill: #FF5C8D; }
+    }
+  </style>
+  <rect class="bg" width="64" height="64" rx="14"/>
+  <circle class="ink" cx="32" cy="32" r="21" fill="none" stroke-width="3.5"/>
+  <path class="needle" d="M32 15 L38 32 L32 49 L26 32 Z"/>
+  <circle class="dot" cx="32" cy="32" r="3.2"/>
+</svg>

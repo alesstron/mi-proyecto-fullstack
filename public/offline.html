@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Sin conexión | Rumbo Nómada</title>
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<style>
+  :root { --bg: #FFF7F0; --ink: #1B2A3A; --ink-2: #4B5869; --accent: #D81F5B; color-scheme: light dark; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #13202D; --ink: #FBEFE4; --ink-2: #BAC4CF; --accent: #FF5C8D; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--bg); color: var(--ink); font: 17px/1.6 "Segoe UI", system-ui, sans-serif; text-align: center; }
+  main { max-width: 34ch; display: grid; gap: 16px; justify-items: center; }
+  svg { width: 72px; height: 72px; animation: sway 3s cubic-bezier(0.77, 0, 0.175, 1) infinite alternate; }
+  @keyframes sway { from { transform: rotate(-18deg); } to { transform: rotate(18deg); } }
+  h1 { margin: 0; font-size: 2rem; line-height: 1.05; letter-spacing: -.03em; }
+  p { margin: 0; color: var(--ink-2); }
+  a { display: inline-flex; min-height: 48px; align-items: center; padding: 0 24px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1); }
+  a:active { transform: scale(.97); }
+  @media (prefers-reduced-motion: reduce) { svg { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 6 L25 20 L20 34 L15 20 Z" fill="var(--accent)"/><circle cx="20" cy="20" r="2.6" fill="currentColor"/></svg>
+  <h1>Estás fuera de cobertura</h1>
+  <p>La brújula sigue apuntando al norte, pero sin conexión no podemos cargar esta página. Vuelve a intentarlo en cuanto tengas red.</p>
+  <a href="/">Reintentar</a>
+</main>
+</body>
+</html>

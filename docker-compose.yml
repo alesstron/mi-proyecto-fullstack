@@ -1,0 +1,41 @@
+name: rumbo-nomada
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rumbo
+      POSTGRES_PASSWORD: rumbo
+      POSTGRES_DB: rumbo_nomada
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rumbo -d rumbo_nomada"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      APP_URL: http://localhost:3000
+      DATABASE_URL: postgresql://rumbo:rumbo@db:5432/rumbo_nomada?schema=public
+    ports:
+      - "3000:3000"
+    # Migraciones + datos de ejemplo (idempotente) y arranque
+    command: ["sh", "-c", "npx prisma migrate deploy && node prisma/seed.js && node server/src/index.js"]
+
+volumes:
+  pgdata:

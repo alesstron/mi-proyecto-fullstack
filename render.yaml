@@ -1,0 +1,49 @@
+# Blueprint de Render: API + front (mismo servicio) + PostgreSQL gestionado.
+# Render → New → Blueprint → selecciona el repositorio. HTTPS y certificado automáticos.
+services:
+  - type: web
+    name: rumbo-nomada
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm ci
+    # Migraciones + seed idempotente antes de cada despliegue
+    preDeployCommand: npx prisma migrate deploy && node prisma/seed.js
+    startCommand: node server/src/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rumbo-db
+          property: connectionString
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: APP_URL
+        sync: false   # p. ej. https://rumbonomada.com
+      - key: CORS_ORIGINS
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        value: Rumbo Nómada <hola@rumbonomada.com>
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+databases:
+  - name: rumbo-db
+    plan: basic-256mb
+    databaseName: rumbo_nomada
+    user: rumbo
+    postgresMajorVersion: "16"
