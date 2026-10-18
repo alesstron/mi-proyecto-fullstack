@@ -67,7 +67,7 @@
       ]
     }
   ],
-  "buildCommand": "prisma generate",
+  "buildCommand": "prisma generate && (prisma migrate deploy && node prisma/seed.js || echo \"AVISO: migraciones/seed omitidos\")",
   "outputDirectory": "public",
   "regions": [
     "iad1"

@@ -10,7 +10,7 @@ export function initCarousel() {
   const track = $('#track'), viewport = $('#viewport');
   track.innerHTML = store.packages.map(p => `
     <button class="pkg" type="button" data-slug="${esc(p.slug)}" aria-label="${esc(p.title)}: ${esc(p.route)}, ${p.days} días, desde ${money(p.pricePerPerson)}. Ver detalles">
-      <div class="pkg-art" style="--g:${esc(p.destination.gradient ?? 'var(--accent-soft)')}" aria-hidden="true"><span class="emoji">${esc(p.emoji ?? '')}</span><span class="pkg-days">${p.days} días</span></div>
+      <div class="pkg-art" style="--g:${esc(p.destination.gradient ?? 'var(--accent-soft)')}" aria-hidden="true">${p.cover ? `<img src="${esc(p.cover.src)}" srcset="${esc(p.cover.srcset)}" sizes="(max-width: 620px) 80vw, 340px" alt="" loading="lazy" decoding="async">` : `<span class="emoji">${esc(p.emoji ?? '')}</span>`}<span class="pkg-days">${p.days} días</span></div>
       <div class="pkg-body" aria-hidden="true">
         <h3>${esc(p.title)}</h3>
         <p class="pkg-route">${esc(p.route)}</p>

@@ -20,6 +20,7 @@ export function serializePackage(p, destination = p.destination) {
     includes: p.includes,
     maxGroupSize: p.maxGroupSize,
     emoji: p.emoji,
+    cover: imageSet(p.image),
     destination: destination
       ? { slug: destination.slug, title: destination.title, country: destination.country, gradient: destination.gradient, emoji: destination.emoji }
       : undefined

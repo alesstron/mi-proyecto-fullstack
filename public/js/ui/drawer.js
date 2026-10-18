@@ -39,7 +39,9 @@ export function openDrawer(pkg, trigger, ctx = {}) {
 
   const art = $('#drawerArt');
   art.style.setProperty('--g', pkg.destination.gradient ?? 'var(--accent-soft)');
-  art.textContent = pkg.emoji ?? pkg.destination.emoji ?? '';
+  art.innerHTML = pkg.cover
+    ? `<img src="${esc(pkg.cover.src)}" srcset="${esc(pkg.cover.srcset)}" sizes="(max-width: 620px) 92vw, 520px" alt="" decoding="async">`
+    : esc(pkg.emoji ?? pkg.destination.emoji ?? '');
   $('#drawerTitle').textContent = pkg.title;
   $('#drawerRoute').textContent = `${pkg.route} · ${pkg.days} días`;
   $('#drawerDesc').textContent = dest?.description ?? '';

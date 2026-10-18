@@ -26,7 +26,7 @@ async function main() {
     const data = {
       title: p.title, route: p.route, days: p.days, pricePerPerson: p.pricePerPerson,
       itinerary: p.itinerary, includes: p.includes, maxGroupSize: p.maxGroupSize,
-      emoji: p.emoji, destinationId: idBySlug[p.destination]
+      emoji: p.emoji, image: p.image, destinationId: idBySlug[p.destination]
     };
     await prisma.package.upsert({ where: { slug: p.slug }, update: data, create: { slug: p.slug, ...data } });
   }

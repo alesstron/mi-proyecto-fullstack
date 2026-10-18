@@ -428,6 +428,8 @@ html.drawer-open body { overflow: hidden; }
 .pkg:focus-visible { border-radius: var(--r-lg); }
 .pkg-art { position: relative; height: 210px; background: var(--g); display: grid; place-items: center; overflow: hidden; }
 .pkg-art .emoji { font-size: 4rem; transition: transform var(--d-slow) var(--ease-out); }
+.pkg-art img, .drawer-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pkg-art .pkg-days { z-index: 1; }
 .pkg:hover .pkg-art .emoji { transform: translateY(-6px) rotate(-6deg) scale(1.06); }
 .pkg-days {
   position: absolute; right: 14px; top: 14px; padding: 4px 10px; border-radius: var(--r-pill);
@@ -467,7 +469,7 @@ html.drawer-open .drawer { transform: translateY(0); }
 .drawer-grab span { width: 44px; height: 5px; border-radius: 5px; background: var(--line); }
 .drawer-close { position: absolute; right: 16px; top: 16px; }
 .drawer-scroll { overflow-y: auto; overscroll-behavior: contain; padding: 8px clamp(20px, 4vw, 40px) 28px; touch-action: pan-y; }
-.drawer-art { height: 160px; border-radius: var(--r); display: grid; place-items: center; font-size: 4rem; background: var(--g); margin: 8px 0 22px; }
+.drawer-art { position: relative; overflow: hidden; height: 160px; border-radius: var(--r); display: grid; place-items: center; font-size: 4rem; background: var(--g); margin: 8px 0 22px; }
 .drawer h2 { font-size: var(--fs-xl); padding-right: 48px; }
 .drawer-route { color: var(--ink-2); margin-top: 6px; }
 .drawer-cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; margin-top: 26px; }

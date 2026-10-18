@@ -70,6 +70,7 @@ function fromCatalog({ DESTINATIONS, PACKAGES, REVIEWS }) {
       slug: p.slug, title: p.title, route: p.route, days: p.days, nights: p.days - 1,
       pricePerPerson: p.pricePerPerson, itinerary: p.itinerary, includes: p.includes,
       maxGroupSize: p.maxGroupSize, emoji: p.emoji,
+      cover: p.image ? { src: unsplash(p.image, 800), srcset: [480, 800, 1200].map(w => `${unsplash(p.image, w)} ${w}w`).join(', ') } : null,
       destination: { slug: d.slug, title: d.title, country: d.country, gradient: d.gradient, emoji: d.emoji }
     };
   });
