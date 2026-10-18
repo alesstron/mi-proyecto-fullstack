@@ -1,0 +1,17 @@
+# Aplica migraciones y seed en la base de datos (Neon) desde los servidores de GitHub.
+# Uso: Actions → "Preparar base de datos" → Run workflow.
+# Requiere el secreto de repositorio DATABASE_URL (cadena directa de Neon, con ?sslmode=require).
+name: Preparar base de datos
+on: workflow_dispatch
+jobs:
+  db:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: node prisma/seed.js
